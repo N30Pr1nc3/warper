@@ -83,9 +83,9 @@ private static Connection getInstance(){
         	  String bez = result.getString("bez");
         	  float pitch = result.getFloat("pitch");
         	  float yaw = result.getFloat("yaw");
-        	  Integer dungeon = result.getInt("yaw");
+        	  Integer dungeon = result.getInt("dungeon");
         	  
-	          String info = "lege neue Location an " + material + ", " + world ;
+	          String info = "lege neue Location an " + material + ", " + world +" dungeon:"+dungeon ;
 	          Warper.itemLocation.put(material, new WarpLocation(id,world, x,y,z ,bez,pitch,yaw,dungeon));
 	          
 	          System.out.println(info);
