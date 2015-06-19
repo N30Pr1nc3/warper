@@ -145,6 +145,9 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent  e){
+		if(!e.getEntity().hasMetadata("isInDungeon")){
+			return;
+		}
     	if(!e.getEntity().getMetadata("isInDungeon").get(0).asBoolean()){
     		return;
     	}
@@ -156,7 +159,10 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void onPlayerLogOut(PlayerQuitEvent event){
-		System.out.println(event.getPlayer().getMetadata("isInDungeon").get(0).asBoolean());
+
+		if(!event.getPlayer().hasMetadata("isInDungeon")){
+			return;
+		}
     	if(event.getPlayer().getMetadata("isInDungeon").get(0).asBoolean()){
     		WarperPlugin.removePlayerFromDungeon(event.getPlayer(), false);
     	}
@@ -168,6 +174,10 @@ public class WarperPlugin extends JavaPlugin implements Listener {
     		return;
     	}
 		if(event.getPlayer().hasPermission("warper.dungeon.bypasscmd")){
+			return;
+		}
+
+		if(!event.getPlayer().hasMetadata("isInDungeon")){
 			return;
 		}
     	if(event.getPlayer().getMetadata("isInDungeon").get(0).asBoolean()){
