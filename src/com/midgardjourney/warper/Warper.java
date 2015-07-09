@@ -1,12 +1,11 @@
 package com.midgardjourney.warper;
 
 
-
+//test
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -63,7 +62,7 @@ public class Warper extends Trait {
 		
 		ArrayList<Material> locations = MySQLConnection.getWarperLocations(String.valueOf(this.npc.getId()));
 		
-		for (int j = 0; j<locations.size();j++){
+		for (int j=0; j<locations.size();j++){
 			if(!Warper.itemLocation.containsKey(locations.get(j))){
 				continue;
 			}
@@ -76,12 +75,6 @@ public class Warper extends Trait {
 			i.setItemMeta(meta);			
 			this.inventar.addItem(i);			
 		}
-		for (int j = locations.size(); j<9;j++){
-			ItemStack i = new ItemStack(Material.STAINED_GLASS_PANE, 1, DyeColor.SILVER.getData());
-			this.inventar.setItem(j,i);
-		}
-		
-		
 	}
 		
 	@EventHandler
@@ -99,27 +92,17 @@ public class Warper extends Trait {
 		if(warplocation==null){
 			return;
 		}
-		
+		System.out.println("porte spieler "+player);
 		Location location = warplocation.getLocation();
+
 		if(location == null){
 			player.sendMessage("Warplocation ist ungültig");
 			return;
 		}
-		
-		//aus irgendeinem grund wird dieses event ca 5 - 10 mal aufgerufen 
-		//ich werde den spieler daher nur porten wenn er nicht schon dort ist
-		if(location.getBlockX()==player.getLocation().getBlockX() &&
-		   location.getBlockY()==player.getLocation().getBlockY() &&
-		   location.getBlockZ()==player.getLocation().getBlockZ()){
-			return;
-		}
-		
-		System.out.println("porte spieler "+player);
-		
-		if(!warplocation.canTravel()){
-			player.sendMessage("Dort sind schon zu viele Spieler. Bitte versuche es später erneut");
-			return;
-		}		
+//		if(!warplocation.canTravel()){
+//			player.sendMessage("Dort sind schon zu viele Spieler. Bitte versuche es später erneut");
+//			return;
+//		}		
 		player.teleport(location);
 		if(warplocation.isDungeon()){
 			player.sendMessage("du wurdest zum Dungeon gesendet");
