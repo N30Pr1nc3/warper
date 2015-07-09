@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
- 
+//check
 public class MySQLConnection{
 private static Connection con = null;
 private static String dbHost = "myralia.de"; // Hostname test
@@ -20,7 +20,7 @@ private static String dbPass = "swE5DvYzbdWqmqtA6cXpzATD";      // Datenbankpass
  
 private MySQLConnection(){
     try {
-        Class.forName("com.mysql.jdbc.Driver"); // Datenbanktreiber für JDBC Schnittstellen laden.
+        Class.forName("com.mysql.jdbc.Driver"); // Datenbanktreiber fÃ¼r JDBC Schnittstellen laden.
  
         // Verbindung zur JDBC-Datenbank herstellen.
         con = DriverManager.getConnection("jdbc:mysql://"+dbHost+":"+ dbPort+"/"+dbName+"?"+"user="+dbUser+"&"+"password="+dbPass);
