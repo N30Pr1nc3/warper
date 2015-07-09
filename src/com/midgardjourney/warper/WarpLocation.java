@@ -1,13 +1,11 @@
 package com.midgardjourney.warper;
-
+//test
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 
 public class WarpLocation {
 	private Integer id;
@@ -64,21 +62,16 @@ public class WarpLocation {
 	}
 
 	public Boolean isDungeon(){
-		if(this.dungeon>0){
-			return true;
-		}
+//		if(this.dungeon>0){
+//			return true;
+//		}
 		return false;
 	}
 
 	public void addPlayer(Player player) {
-		if(!this.isDungeon()){
-			return;
-		}
 		this.users.add(player);
-
-		player.setMetadata("isInDungeon", new FixedMetadataValue(WarperPlugin.getInstance(), true));
-		if(this.users.size() >= this.dungeon){
-			this.accessible = false;
+		if(this.users.size() < this.dungeon){
+			this.accessible= false;
 		}
 	}
 	
@@ -86,7 +79,6 @@ public class WarpLocation {
 		if (this.users.contains(player)){
 			this.users.remove(this.users.indexOf(player));
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "warp Dungeonmaster "+player.getName());
-			player.setMetadata("isInDungeon", new FixedMetadataValue(WarperPlugin.getInstance(), false));
 			if(this.users.size()==0){
 				this.accessible = true;
 			}
