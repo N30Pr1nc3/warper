@@ -64,17 +64,17 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("warper")){		
-			ItemMeta meta = ((Player)sender).getInventory().getItemInHand().getItemMeta();
-			List<String> lore = meta.getLore();			
-			
-			System.out.println(lore);
-
-			lore.add(HiddenStringUtils.encodeString("{MobsKilled: 0}"));
-
-			lore.add("moep");
-			
-			meta.setLore(lore);
-			((Player)sender).getInventory().getItemInHand().setItemMeta(meta);
+//			ItemMeta meta = ((Player)sender).getInventory().getItemInHand().getItemMeta();
+//			List<String> lore = meta.getLore();			
+//			
+//			System.out.println(lore);
+//
+//			lore.add(HiddenStringUtils.encodeString("{MobsKilled: 0}"));
+//
+//			lore.add("moep");
+//			
+//			meta.setLore(lore);
+//			((Player)sender).getInventory().getItemInHand().setItemMeta(meta);
 			
 			
 			
@@ -129,8 +129,9 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 					return true;
 				}
 			}
-			if(args.length == 10){
-				if(args[0].equals("butcher")){
+			//warper reset myralia 10 10 10 5
+			if(args.length == 6){
+				if(args[0].equals("reset")){
 					World world = Bukkit.getWorld(args[1]);
 					if(world==null){
 						sender.sendMessage("die Welt "+args[1]+" konnte nicht gefunden werden");
@@ -152,6 +153,7 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 						sender.sendMessage("der radius ("+args[5]+") ist keine Zahl");
 						return true;
 					}
+//					sender.sendMessage("Beginne mit der tötung");
 					int x = Integer.parseInt(args[2]);
 					int y = Integer.parseInt(args[3]);
 					int z = Integer.parseInt(args[4]);
@@ -159,33 +161,48 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 					
 					Location center = new Location(world,x,y,z);
 					
+//					System.out.println(world.getName()+x+y+z+radius);
+					
 					for (Chunk chunk : world.getLoadedChunks())
 					{
-						for (Entity e : chunk.getEntities())
+//						System.out.println("prüfe chunk");
+						for (Entity e : chunk.getEntities())							
 						{
+//							System.out.println("prüfe entity"+e.toString());
 							if (radius > 0)
 							{
-								if (center.distanceSquared(e.getLocation()) > radius)
+								if (center.distance(e.getLocation()) > radius)
 								{
+
+//									System.out.println("Ist nicht im radius");
 									continue;
 								}
 							}
 							if (e instanceof HumanEntity)
 							{
+
+//								System.out.println("Ist menschlich");
 								continue;
 							}
 							if (e instanceof Painting)
 							{
+
+//								System.out.println("Ist ein bild");
 								continue;
 							}
 							if (e instanceof ItemFrame)
 							{
+
+//								System.out.println("Ist nicht ein itemframe");
 								continue;
 							}
 							if (e instanceof EnderCrystal)
 							{
+
+//								System.out.println("Ist nicht ein endercristall");
 								continue;
 							}
+//							sender.sendMessage("Töte "+e.toString());
 							e.remove();
 						}
 					}
