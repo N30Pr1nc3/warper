@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-//check
+//check1
 public class MySQLConnection{
 private static Connection con = null;
 private static String dbHost = "myralia.de"; // Hostname test
