@@ -12,7 +12,7 @@ import org.bukkit.Material;
  
 public class MySQLConnection{
 private static Connection con = null;
-private static String dbHost = "myralia.de"; // Hostname
+private static String dbHost = "myralia.de"; // Hostname test
 private static String dbPort = "3306";      // Port -- Standard: 3306
 private static String dbName = "minecraft_warper";   // Datenbankname
 private static String dbUser = "minecraft_warper";     // Datenbankuser
@@ -83,9 +83,9 @@ private static Connection getInstance(){
         	  String bez = result.getString("bez");
         	  float pitch = result.getFloat("pitch");
         	  float yaw = result.getFloat("yaw");
-        	  Integer dungeon = result.getInt("dungeon");
+        	  Integer dungeon = result.getInt("yaw");
         	  
-	          String info = "lege neue Location an " + material + ", " + world +" dungeon:"+dungeon ;
+	          String info = "lege neue Location an " + material + ", " + world ;
 	          Warper.itemLocation.put(material, new WarpLocation(id,world, x,y,z ,bez,pitch,yaw,dungeon));
 	          
 	          System.out.println(info);
