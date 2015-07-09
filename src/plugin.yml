@@ -12,13 +12,6 @@ commands:
       permission-message: keine Berechtigung
    dungeon:
       description: komandos die zum dungeon gehoeren
-      usage: /dungeon [befehl] {params}
+      usage: /dungeon [befehl]
       permission: warper.dungeon
-      permission-message: keine Berechtigung               
-permissions:
-   warper.dungeon.leave.others:
-     description: ermoeglicht es andere Spieler aus einem Dungeon zu holen
-     default: op 
-   warper.dungeon.bypasscmd:
-     description: ermoeglicht es in einem Dungeon Befehle zu benutzen
-     default: op
+      permission-message: keine Berechtigung
