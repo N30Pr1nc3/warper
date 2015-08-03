@@ -38,7 +38,7 @@ import com.google.common.io.ByteStreams;
 public class WarperPlugin extends JavaPlugin implements Listener {
 	
 	@Override
-	public void onEnable() {		    
+	public void onEnable() {	
 		if(getServer().getPluginManager().getPlugin("Citizens") == null || getServer().getPluginManager().getPlugin("Citizens").isEnabled() == false) {
 			getLogger().log(java.util.logging.Level.SEVERE, "Citizens 2.0 not found or not enabled");
 			getServer().getPluginManager().disablePlugin(this);	
@@ -50,7 +50,9 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 		
 		getServer().getPluginManager().registerEvents(this, this);	
 		
-		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(Warper.class).withName("warper"));		
+		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(Warper.class).withName("warper"));
+
+		System.out.println("Warper loadet");
 	}
 
 	static void loadWarpsNWarpers(){
@@ -113,7 +115,10 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 				sender.sendMessage("/dungeon leave - Du verlässt den aktuellen Dungeon");
 				return true;
 			}
+
+			System.out.println("es ist scheinbae dungeo leave");
 			if(args.length==1){
+				System.out.println("arghh 1");
 				if(args[0].equals("leave")){
 					if(sender instanceof Player ){
 						WarperPlugin.removePlayerFromDungeon((Player) sender);
@@ -124,8 +129,15 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 				}
 			}
 			if(args.length==2){
-				if(args[0] == "leave"){					
-					sender.sendMessage("Bitte Spielernamen angeben");
+				System.out.println("argh 2");
+				if(args[0] == "leave"){
+					System.out.println(args[1]);
+					Player p = getServer().getPlayer(args[1]);
+					if(p==null ){
+						sender.sendMessage("Bitte Spielernamen angeben");
+						return true;
+					}
+					WarperPlugin.removePlayerFromDungeon(p);
 					return true;
 				}
 			}
@@ -171,7 +183,7 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 //							System.out.println("prüfe entity"+e.toString());
 							if (radius > 0)
 							{
-								if (center.distance(e.getLocation()) > radius)
+								if (center.distance(e.getLocation()) > radius)									
 								{
 
 //									System.out.println("Ist nicht im radius");
