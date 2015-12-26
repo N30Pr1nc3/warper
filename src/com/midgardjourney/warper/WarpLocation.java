@@ -1,6 +1,6 @@
-// anzeigen für wie viel personen ein dungeon ist
+// anzeigen fï¿½r wie viel personen ein dungeon ist
 // dungon 1 voin x spileer
-//dungeon resetten wenn der spilere gekickt/getötet wird wird
+//dungeon resetten wenn der spilere gekickt/getï¿½tet wird wird
 //dungeon reset
 
 
@@ -17,8 +17,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
 
 public class WarpLocation {
 	private Integer id;
@@ -197,11 +195,11 @@ public class WarpLocation {
 		Location location = this.getLocation();
 
 		if(location == null){
-			player.sendMessage("Warplocation ist ungültig");
+			player.sendMessage("Warplocation ist ungï¿½ltig");
 			return;
 		}
 		if(!this.canTravel(player)){
-			player.sendMessage("Dort sind schon zu viele Spieler. Bitte versuche es später erneut");
+			player.sendMessage("Dort sind schon zu viele Spieler. Bitte versuche es spï¿½ter erneut");
 			return;
 		}		
 		player.teleport(location);
