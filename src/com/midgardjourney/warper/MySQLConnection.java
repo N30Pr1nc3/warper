@@ -7,12 +7,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+
 //check1
 public class MySQLConnection{
 private static Connection con = null;
-private static String dbHost = "myralia.de"; // Hostname test
+private static String dbHost = "localhost"; // Hostname test
 private static String dbPort = "3306";      // Port -- Standard: 3306
 private static String dbName = "minecraft_warper";   // Datenbankname
 private static String dbUser = "minecraft_warper";     // Datenbankuser
@@ -83,7 +87,7 @@ private static Connection getInstance(){
         	  String bez = result.getString("bez");
         	  float pitch = result.getFloat("pitch");
         	  float yaw = result.getFloat("yaw");
-        	  Integer dungeon = result.getInt("yaw");
+        	  Integer dungeon = result.getInt("dungeon");
         	  
 	          String info = "lege neue Location an " + material + ", " + world ;
 	          Warper.itemLocation.put(material, new WarpLocation(id,world, x,y,z ,bez,pitch,yaw,dungeon));
@@ -94,6 +98,36 @@ private static Connection getInstance(){
         e.printStackTrace();
       }
     }
+  }
+  
+  public static void reset(int id,String worldName){
+	  con = getInstance();
+      if(con != null){
+    	  Statement query;     
+    	  try {
+    		  query = con.createStatement();
+    		  String sql = "SELECT * FROM locations_reset where location = '"+String.valueOf(id)+"'";
+    		  System.out.println(sql);
+    		  ResultSet result = query.executeQuery(sql);
+    		  Location loc;
+			  Material material;
+			  World world = Bukkit.getWorld(worldName);
+    		  while (result.next()) {
+    			  System.out.println("setze Material");
+    			  material = Material.getMaterial(result.getString("material"));
+    			  if(material == null){
+    				  System.out.println("das material "+result.getString("material")+" gibt es nicht");
+    				  return;
+    			  }
+    			  System.out.println("hole block");
+    			  loc = new Location(world, result.getInt("x"),result.getInt("y"),result.getInt("z"));
+    			  System.out.println("weise material zu");
+    			  loc.getBlock().setType(material);    			  
+    		  }
+    	  } catch (SQLException e) {
+    		  e.printStackTrace();
+    	  }
+      }
   }
   
   public static ArrayList<Material> getWarperLocations(String npcId ){
@@ -155,4 +189,6 @@ private static Connection getInstance(){
 	}
 	
 	}
+
+  
 }

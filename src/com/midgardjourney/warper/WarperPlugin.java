@@ -26,7 +26,10 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -52,7 +55,7 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 		
 		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(Warper.class).withName("warper"));
 
-		System.out.println("Warper loadet");
+		System.out.println("Warper loaded");
 	}
 
 	static void loadWarpsNWarpers(){
@@ -65,24 +68,11 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(cmd.getName().equalsIgnoreCase("warper")){		
-//			ItemMeta meta = ((Player)sender).getInventory().getItemInHand().getItemMeta();
-//			List<String> lore = meta.getLore();			
-//			
-//			System.out.println(lore);
-//
-//			lore.add(HiddenStringUtils.encodeString("{MobsKilled: 0}"));
-//
-//			lore.add("moep");
-//			
-//			meta.setLore(lore);
-//			((Player)sender).getInventory().getItemInHand().setItemMeta(meta);
-			
-			
-			
+		if(cmd.getName().equalsIgnoreCase("warper")){					
 			if(args.length==0){
 				sender.sendMessage("Mögliche Kommandos für Warper:");
-				sender.sendMessage("/warper reload - Läd die warplocations aus der datenbank neu");
+				sender.sendMessage("/warper reload - Läd die warplocations aus der datenbank neu");			
+				
 				return true;
 			}
 			if(args[0].equalsIgnoreCase("reload")){
@@ -113,31 +103,70 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 			if(args.length==0){
 				sender.sendMessage("Mögliche Kommandos für Dungeon:");
 				sender.sendMessage("/dungeon leave - Du verlässt den aktuellen Dungeon");
+				sender.sendMessage("/dungeon list  - Zeigt eine Liste aller Dungeons");
 				return true;
 			}
-
-			System.out.println("es ist scheinbae dungeo leave");
+						
 			if(args.length==1){
-				System.out.println("arghh 1");
+				System.out.println("es gibt 1 parameter");
 				if(args[0].equals("leave")){
+					System.out.println("es ist leave");
 					if(sender instanceof Player ){
+						System.out.println("der sender ist ein spieler");
 						WarperPlugin.removePlayerFromDungeon((Player) sender);
 						return true;
 					}
 					sender.sendMessage("Bitte Spielernamen angeben");
 					return true;
 				}
+				if(args[0].equals("list")){
+					for (WarpLocation location : Warper.itemLocation.values()) {
+						if(!location.isDungeon()){
+							continue;
+						}
+						ArrayList<Player> user = location.getUser();
+						sender.sendMessage(location.toString(true));
+						for(Player p :user){
+							sender.sendMessage(" - "+p.getName());
+						}					    
+					}
+					return true;
+				}
 			}
 			if(args.length==2){
-				System.out.println("argh 2");
-				if(args[0] == "leave"){
-					System.out.println(args[1]);
+				System.out.println("es gibt 2 parameter");
+				System.out.println(args[0]);
+				System.out.println(args[1]);
+				if(args[0].equals("leave")){
+					System.out.println("es ist leave");
+					System.out.println("parameter 2 ist "+args[1]);
 					Player p = getServer().getPlayer(args[1]);
 					if(p==null ){
+						System.out.println("spilername passt wol nicht");
 						sender.sendMessage("Bitte Spielernamen angeben");
 						return true;
 					}
 					WarperPlugin.removePlayerFromDungeon(p);
+					return true;
+				}
+				if(args[0].equals("start")){
+					System.out.println("es ist start");
+					System.out.println("parameter 2 ist "+args[1]);
+					
+					if(! NumberUtils.isNumber(args[1])){
+						sender.sendMessage("die dungeonid ("+args[1]+") ist keine Zahl");
+						return true;
+					}
+					int id = Integer.parseInt(args[1]);
+					for (WarpLocation location : Warper.itemLocation.values()) {
+						if(location.getId()!=id){
+							continue;
+						}
+						if(!location.isDungeon()){
+							sender.sendMessage("die dungeonid "+args[1]+"("+location.bez+") ist kein dungeon");
+						}
+						location.close();
+					}
 					return true;
 				}
 			}
@@ -224,8 +253,31 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 		return false; // do this if you didn't handle the command.
 	}  
 	
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent e){
+		WarperPlugin.removePlayerFromDungeon(e.getPlayer());
+	}
+	
+	@Override
+	public void onDisable(){
+		for (WarpLocation location : Warper.itemLocation.values()) {
+			location.reset();
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent e){
+		for (WarpLocation location : Warper.itemLocation.values()) {
+			System.out.println("versuche "+e.getEntity().getName()+" in "+location.bez+" zu resetten");
+		    if(location.resettPlayer(e.getEntity())){
+		    	return;
+		    }
+		}
+	}
+	
 	public static void removePlayerFromDungeon(Player p){
 		for (WarpLocation location : Warper.itemLocation.values()) {
+			System.out.println("versuche "+p.getName()+" aus "+location.bez+" zu entfernen");
 		    if(location.removePlayer(p)){
 		    	return;
 		    }

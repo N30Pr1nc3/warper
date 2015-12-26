@@ -26,17 +26,16 @@ public class Warper extends Trait {
 	private Inventory inventar;
 	WarperPlugin plugin = null;
 	boolean SomeSetting = false;
-	static HashMap<Material,WarpLocation> itemLocation ;
+	static HashMap<Material,WarpLocation> itemLocation ;	
 	static String server ;
 	public static ArrayList<String> serverList;
-	public static ArrayList<Warper> warperList;	
+	public static ArrayList<Warper> warperList;
 	
 	public Warper() {		
 		super("warper");	
-		plugin = (WarperPlugin) Bukkit.getServer().getPluginManager().getPlugin("Warper");
+		plugin = (WarperPlugin) Bukkit.getServer().getPluginManager().getPlugin("Warper");		
 		warperList.add(this);
 		//alle warperlocations aus der db laden
-
 	}
 	
 	@EventHandler
@@ -58,7 +57,7 @@ public class Warper extends Trait {
 	
 	public void fillInventory(){
 		this.inventar = null;
-		this.inventar=Bukkit.createInventory(null,9,"Warper");
+		this.inventar=Bukkit.createInventory(null,9,"Warper "+this.npc.getFullName());
 		
 		ArrayList<Material> locations = MySQLConnection.getWarperLocations(String.valueOf(this.npc.getId()));
 		
@@ -79,35 +78,25 @@ public class Warper extends Trait {
 		
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event){
+			
 		if(event.getClickedInventory()==null || this.inventar == null){
 			return;
 		}        
-		if(event.getClickedInventory().getTitle() != this.inventar.getTitle()){
+		System.out.println(event.getClickedInventory().getName());
+		System.out.println(this.npc.getFullName());
+		System.out.println(this.inventar.getName());
+		
+		if(!event.getClickedInventory().equals(this.inventar)){
 			return;
 		}
         event.setCancelled(true);
-		Player player = (Player) event.getWhoClicked();		
+		Player player = (Player) event.getWhoClicked();
 		
 		WarpLocation warplocation = Warper.itemLocation.get(event.getCurrentItem().getType());
 		if(warplocation==null){
 			return;
 		}
-		System.out.println("porte spieler "+player);
-		Location location = warplocation.getLocation();
-
-		if(location == null){
-			player.sendMessage("Warplocation ist ungültig");
-			return;
-		}
-//		if(!warplocation.canTravel()){
-//			player.sendMessage("Dort sind schon zu viele Spieler. Bitte versuche es später erneut");
-//			return;
-//		}		
-		player.teleport(location);
-		if(warplocation.isDungeon()){
-			player.sendMessage("du wurdest zum Dungeon gesendet");
-			warplocation.addPlayer(player);
-		}
+		warplocation.tp(player);
 	
 	}	
 	
