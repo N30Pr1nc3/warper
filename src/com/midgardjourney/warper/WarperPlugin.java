@@ -1,18 +1,14 @@
 package com.midgardjourney.warper;
 
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import net.md_5.bungee.api.ChatColor;
+//import de.myralia.jsonConfigReader;
+import de.myralia.jsonConfigReader.ConfigParser;
 
 import org.apache.commons.lang.math.NumberUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -30,18 +26,25 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.messaging.PluginMessageListener;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
+import org.fusesource.hawtjni.runtime.Library;
+
 
 public class WarperPlugin extends JavaPlugin implements Listener {
 	
 	@Override
-	public void onEnable() {	
+	public void onEnable() {
+		
+//		File folder = getDataFolder();
+//		if(!Files.exists(path)){
+//			
+//		}
+		
+		
+		
+		//WarperPluginConfiguration config = (WarperPluginConfiguration)ConfigParser.parseFile(_filename, _type)
+		
 		if(getServer().getPluginManager().getPlugin("Citizens") == null || getServer().getPluginManager().getPlugin("Citizens").isEnabled() == false) {
 			getLogger().log(java.util.logging.Level.SEVERE, "Citizens 2.0 not found or not enabled");
 			getServer().getPluginManager().disablePlugin(this);	

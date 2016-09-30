@@ -1,12 +1,4 @@
-// anzeigen f�r wie viel personen ein dungeon ist
-// dungon 1 voin x spileer
-//dungeon resetten wenn der spilere gekickt/get�tet wird wird
-//dungeon reset
-
-
 package com.midgardjourney.warper;
-//test
-import java.io.File;
 import java.util.ArrayList;
 
 import net.md_5.bungee.api.ChatColor;
@@ -15,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 
 public class WarpLocation {
