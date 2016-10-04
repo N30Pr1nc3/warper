@@ -1,6 +1,12 @@
 package com.midgardjourney.warper;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,35 +34,61 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import org.fusesource.hawtjni.runtime.Library;
+import com.google.common.io.Files;
+
 
 
 public class WarperPlugin extends JavaPlugin implements Listener {
 	
-	@Override
+	public static WarperPluginConfiguration config; 
+	
+	@Override	
 	public void onEnable() {
 		
-//		File folder = getDataFolder();
-//		if(!Files.exists(path)){
-//			
-//		}
+		File folder = getDataFolder();
 		
+		if(!folder.exists())
+		{
+			folder.mkdirs();	
+			//List<String> lines = Arrays.asList("The first line", "The second line");
+			PrintWriter writer;
+			try {
+				writer = new PrintWriter(folder.getAbsolutePath()+"\\config.json", "UTF-8");writer.println("{\r\n");
+				writer.println("\"dbPort\":\"\",");
+				writer.println("\"dbName\":\"\",");
+				writer.println("\"dbUser\":\"\",");
+				writer.println("\"dbPass\":\"\"");
+				writer.println("\r\n}");
+				writer.close();
+			} catch (FileNotFoundException | UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
+			
+			
+						
+		}
+		WarperPlugin.config = (WarperPluginConfiguration)ConfigParser.parseFile(folder.getAbsolutePath()+"\\config.json", WarperPluginConfiguration.class);
 		
+				
 		
-		//WarperPluginConfiguration config = (WarperPluginConfiguration)ConfigParser.parseFile(_filename, _type)
-		
-		if(getServer().getPluginManager().getPlugin("Citizens") == null || getServer().getPluginManager().getPlugin("Citizens").isEnabled() == false) {
-			getLogger().log(java.util.logging.Level.SEVERE, "Citizens 2.0 not found or not enabled");
-			getServer().getPluginManager().disablePlugin(this);	
-			return;
-		}	
-		Warper.itemLocation = new HashMap<Material, WarpLocation>();
-		Warper.warperList = new ArrayList<Warper>();
-		Warper.server="";
-		
-		getServer().getPluginManager().registerEvents(this, this);	
-		
-		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(Warper.class).withName("warper"));
+//		//WarperPluginConfiguration config = (WarperPluginConfiguration)ConfigParser.parseFile(_filename, _type)
+//		
+//		if(getServer().getPluginManager().getPlugin("Citizens") == null || getServer().getPluginManager().getPlugin("Citizens").isEnabled() == false) {
+//			getLogger().log(java.util.logging.Level.SEVERE, "Citizens 2.0 not found or not enabled");
+//			getServer().getPluginManager().disablePlugin(this);	
+//			return;
+//		}	
+//		Warper.itemLocation = new HashMap<Material, WarpLocation>();
+//		Warper.warperList = new ArrayList<Warper>();
+//		Warper.server="";
+//		
+//		getServer().getPluginManager().registerEvents(this, this);	
+//		
+//		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(Warper.class).withName("warper"));
 
 		System.out.println("Warper loaded");
 	}
