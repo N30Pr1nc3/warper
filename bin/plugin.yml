@@ -1,0 +1,17 @@
+name: Warper
+version: 0.1
+author: NeoPrince
+website: http://midgard-journey.com
+main: com.midgardjourney.warper.WarperPlugin
+softdepend: [Citizens]
+commands:
+   warper:
+      description: zeigt alle kommandos fuer das NPC warper plugin an
+      usage: /warper
+      permission: warper.admin
+      permission-message: keine Berechtigung
+   dungeon:
+      description: komandos die zum dungeon gehoeren
+      usage: /dungeon [befehl]
+      permission: warper.dungeon
+      permission-message: keine Berechtigung

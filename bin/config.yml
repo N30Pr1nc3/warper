@@ -1,0 +1,6 @@
+#MyTrait configuration
+
+SomeChatString: "This is the default message!"
+
+Defaults:
+ SomeSetting: false
