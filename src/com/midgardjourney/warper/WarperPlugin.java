@@ -63,17 +63,9 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 			} catch (FileNotFoundException | UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			
-			
-			
-			
-			
-						
+			}			
 		}
-		WarperPlugin.config = (WarperPluginConfiguration)ConfigParser.parseFile(folder.getAbsolutePath()+"\\config.json", WarperPluginConfiguration.class);
-		
-				
+		WarperPlugin.config = (WarperPluginConfiguration)ConfigParser.parseFile(folder.getAbsolutePath()+"//config.json", WarperPluginConfiguration.class);		
 		
 //		//WarperPluginConfiguration config = (WarperPluginConfiguration)ConfigParser.parseFile(_filename, _type)
 //		
