@@ -53,7 +53,7 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 			//List<String> lines = Arrays.asList("The first line", "The second line");
 			PrintWriter writer;
 			try {
-				writer = new PrintWriter(folder.getAbsolutePath()+"\\config.json", "UTF-8");writer.println("{\r\n");
+				writer = new PrintWriter(folder.getAbsolutePath()+"//config.json", "UTF-8");writer.println("{\r\n");
 				writer.println("\"dbPort\":\"\",");
 				writer.println("\"dbName\":\"\",");
 				writer.println("\"dbUser\":\"\",");
