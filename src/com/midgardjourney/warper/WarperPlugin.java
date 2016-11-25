@@ -67,20 +67,20 @@ public class WarperPlugin extends JavaPlugin implements Listener {
 		}
 		WarperPlugin.config = (WarperPluginConfiguration)ConfigParser.parseFile(folder.getAbsolutePath()+"//config.json", WarperPluginConfiguration.class);		
 		
-//		//WarperPluginConfiguration config = (WarperPluginConfiguration)ConfigParser.parseFile(_filename, _type)
+		//WarperPluginConfiguration config = (WarperPluginConfiguration)ConfigParser.parseFile(_filename, _type)
 //		
-//		if(getServer().getPluginManager().getPlugin("Citizens") == null || getServer().getPluginManager().getPlugin("Citizens").isEnabled() == false) {
-//			getLogger().log(java.util.logging.Level.SEVERE, "Citizens 2.0 not found or not enabled");
-//			getServer().getPluginManager().disablePlugin(this);	
-//			return;
-//		}	
-//		Warper.itemLocation = new HashMap<Material, WarpLocation>();
-//		Warper.warperList = new ArrayList<Warper>();
+		if(getServer().getPluginManager().getPlugin("Citizens") == null || getServer().getPluginManager().getPlugin("Citizens").isEnabled() == false) {
+			getLogger().log(java.util.logging.Level.SEVERE, "Citizens 2.0 not found or not enabled");
+			getServer().getPluginManager().disablePlugin(this);	
+			return;
+		}	
+		Warper.itemLocation = new HashMap<Material, WarpLocation>();
+		Warper.warperList = new ArrayList<Warper>();
 //		Warper.server="";
 //		
-//		getServer().getPluginManager().registerEvents(this, this);	
+		getServer().getPluginManager().registerEvents(this, this);	
 //		
-//		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(Warper.class).withName("warper"));
+		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(Warper.class).withName("warper"));
 
 		System.out.println("Warper loaded");
 	}
